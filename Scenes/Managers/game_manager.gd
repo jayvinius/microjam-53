@@ -17,8 +17,13 @@ func _process(delta: float) -> void:
 		stamina -= 1
 		should_regen_stamina = false
 		%StaminaRegenTimer.start()
+		if current_fish.position.y < 0:
+			print("you caught a fish")
 
 	regen_stamina()
+
+func _physics_process(delta: float) -> void:
+	queue_redraw()
 
 func _on_stamina_regen_timer_timeout() -> void:
 	print("here")
@@ -26,4 +31,9 @@ func _on_stamina_regen_timer_timeout() -> void:
 
 func regen_stamina() -> void:
 	if !should_regen_stamina: return
-	stamina = lerp(stamina, max_stamina, .5)
+	stamina = lerp(stamina, max_stamina, .05)
+
+func _draw() -> void:
+	# TODO: Add more rod things, and make this give the player more feedback on where the fish is
+	draw_line(%Player.position, Vector2(0, 0), Color.WEB_GRAY, 1.0)
+	draw_line(Vector2(0, 0), current_fish.position, Color.WEB_GRAY, 1.0)

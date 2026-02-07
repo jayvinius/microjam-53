@@ -8,16 +8,16 @@
 
 [node name="GameManager" type="Node2D" unique_id=1282475959 node_paths=PackedStringArray("current_fish")]
 script = ExtResource("1_hqrb7")
-current_fish = NodePath("CharacterBody2D")
+current_fish = NodePath("Fish")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=98598661]
+[node name="Fish" type="CharacterBody2D" parent="." unique_id=98598661]
 script = ExtResource("3_j1mdm")
 
-[node name="Fish" type="Sprite2D" parent="CharacterBody2D" unique_id=602854422]
+[node name="Sprite2D" type="Sprite2D" parent="Fish" unique_id=602854422]
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_6lden")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=410766878]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fish" unique_id=410766878]
 shape = SubResource("CircleShape2D_xbfc7")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=77571387]
@@ -32,5 +32,11 @@ one_shot = true
 unique_name_in_owner = true
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="Player" type="Sprite2D" parent="." unique_id=1398494350]
+unique_name_in_owner = true
+position = Vector2(-20, -80)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_6lden")
 
 [connection signal="timeout" from="StaminaRegenTimer" to="." method="_on_stamina_regen_timer_timeout"]
