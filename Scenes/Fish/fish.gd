@@ -10,7 +10,7 @@ func _new_target() -> void:
 	target_pos = Vector2(randf_range(-100, 100), randf_range(0, 60))
 
 func _ready() -> void:
-	position = Vector2(randf_range(-10, 10), randf_range(0, 60))
+	position = Vector2(randf_range(-100, 100), randf_range(0, 60))
 	_new_target()
 
 func _physics_process(delta: float) -> void:

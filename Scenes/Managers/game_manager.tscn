@@ -6,9 +6,11 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xbfc7"]
 
-[node name="GameManager" type="Node2D" unique_id=1282475959 node_paths=PackedStringArray("current_fish")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hqrb7"]
+size = Vector2(12, 173)
+
+[node name="GameManager" type="Node2D" unique_id=1282475959]
 script = ExtResource("1_hqrb7")
-current_fish = NodePath("Fish")
 
 [node name="Fish" type="CharacterBody2D" parent="." unique_id=98598661]
 script = ExtResource("3_j1mdm")
@@ -39,4 +41,11 @@ position = Vector2(-20, -80)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_6lden")
 
+[node name="Area2D" type="Area2D" parent="." unique_id=1970060649]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1254803981]
+position = Vector2(1, 37.5)
+shape = SubResource("RectangleShape2D_hqrb7")
+
 [connection signal="timeout" from="StaminaRegenTimer" to="." method="_on_stamina_regen_timer_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
