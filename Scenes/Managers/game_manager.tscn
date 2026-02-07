@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bc47ch04spm75"]
+
+[ext_resource type="Script" uid="uid://d3nw28fk6x6vc" path="res://Scenes/Managers/game_manager.gd" id="1_hqrb7"]
+[ext_resource type="Texture2D" uid="uid://bn7thxrulgmsq" path="res://icon.svg" id="2_6lden"]
+[ext_resource type="Script" uid="uid://cs8tnt2j6o4i1" path="res://Scenes/Fish/fish.gd" id="3_j1mdm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xbfc7"]
+
+[node name="GameManager" type="Node2D" unique_id=1282475959 node_paths=PackedStringArray("current_fish")]
+script = ExtResource("1_hqrb7")
+current_fish = NodePath("CharacterBody2D")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=98598661]
+script = ExtResource("3_j1mdm")
+
+[node name="Fish" type="Sprite2D" parent="CharacterBody2D" unique_id=602854422]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_6lden")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=410766878]
+shape = SubResource("CircleShape2D_xbfc7")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=77571387]
+zoom = Vector2(4, 4)
+
+[node name="StaminaRegenTimer" type="Timer" parent="." unique_id=1622655774]
+unique_name_in_owner = true
+wait_time = 2.0
+one_shot = true
+
+[node name="TempStaminaBar" type="Label" parent="." unique_id=2134775375]
+unique_name_in_owner = true
+offset_right = 40.0
+offset_bottom = 23.0
+
+[connection signal="timeout" from="StaminaRegenTimer" to="." method="_on_stamina_regen_timer_timeout"]
