@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://b0o3ufperugmu"]
+
+[ext_resource type="Script" uid="uid://ba76jnhk6n0ct" path="res://Scenes/UI/caught_fish.gd" id="1_40o53"]
+
+[node name="CaughtFish" type="Control" unique_id=607923808]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_40o53")
+
+[node name="Label" type="Label" parent="." unique_id=444564156]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.5
+offset_top = -24.5
+offset_right = 144.5
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "You Caught A <Insert Fish Type Here>
+(E)at or (U)se as Bait"
