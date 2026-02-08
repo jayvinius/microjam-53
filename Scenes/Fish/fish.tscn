@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dkcr0hqmnox6t"]
 
 [ext_resource type="Script" uid="uid://cs8tnt2j6o4i1" path="res://Scenes/Fish/fish.gd" id="1_rrrj0"]
-[ext_resource type="Texture2D" uid="uid://bn7thxrulgmsq" path="res://icon.svg" id="2_botaw"]
+[ext_resource type="Texture2D" uid="uid://ceytv3uprueiq" path="res://Scenes/Fish/tempfish.png" id="2_rrrj0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xbfc7"]
 
@@ -9,8 +9,9 @@
 script = ExtResource("1_rrrj0")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1353829730]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_botaw")
+position = Vector2(-1, 0)
+scale = Vector2(0.78125, 0.78125)
+texture = ExtResource("2_rrrj0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1847569719]
 shape = SubResource("CircleShape2D_xbfc7")

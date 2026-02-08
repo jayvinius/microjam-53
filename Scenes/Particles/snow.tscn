@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bv2cu65tccmx3"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ql3eq"]
+lifetime_randomness = 0.04
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(285.97, 1, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+velocity_pivot = Vector3(0.005, 0, 0)
+direction = Vector3(-3.985, 0, 0)
+spread = 36.0
+initial_velocity_max = 22.72
+gravity = Vector3(0, 73.52, 0)
+scale_max = 1.5
+
+[node name="Snow" type="Node2D" unique_id=1818459410]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=330037085]
+amount = 132
+lifetime = 1.5
+process_material = SubResource("ParticleProcessMaterial_ql3eq")

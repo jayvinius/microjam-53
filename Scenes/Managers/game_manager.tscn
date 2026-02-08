@@ -1,31 +1,53 @@
 [gd_scene format=3 uid="uid://bc47ch04spm75"]
 
 [ext_resource type="Script" uid="uid://d3nw28fk6x6vc" path="res://Scenes/Managers/game_manager.gd" id="1_hqrb7"]
-[ext_resource type="Texture2D" uid="uid://bn7thxrulgmsq" path="res://icon.svg" id="2_6lden"]
 [ext_resource type="PackedScene" uid="uid://dkcr0hqmnox6t" path="res://Scenes/Fish/fish.tscn" id="2_hqrb7"]
 [ext_resource type="PackedScene" uid="uid://b0o3ufperugmu" path="res://Scenes/UI/caught_fish.tscn" id="2_j1mdm"]
+[ext_resource type="Texture2D" uid="uid://n7cjtiaqor0j" path="res://Scenes/Managers/mountain one.png" id="3_jnrsg"]
+[ext_resource type="Texture2D" uid="uid://dd0j7syvxuj1f" path="res://Scenes/Managers/coolcat.png" id="4_xbfc7"]
+[ext_resource type="PackedScene" uid="uid://bv2cu65tccmx3" path="res://Scenes/Particles/snow.tscn" id="5_j1mdm"]
+[ext_resource type="Texture2D" uid="uid://di2j2gahqqlx7" path="res://Scenes/Managers/hole.png" id="6_vlbu8"]
+[ext_resource type="Texture2D" uid="uid://btjy4yl5kofn8" path="res://Scenes/Managers/stamina bar.png" id="7_vlbu8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hqrb7"]
 size = Vector2(12, 173)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vlbu8"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_jnrsg"]
+offsets = PackedFloat32Array(0, 0.9919355)
+colors = PackedColorArray(0.7882353, 0.13725491, 0.09803922, 1, 0.5411765, 0.18431373, 0.09019608, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_b67da"]
+gradient = SubResource("Gradient_jnrsg")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dtp7y"]
+texture = SubResource("GradientTexture1D_b67da")
 
 [node name="GameManager" type="Node2D" unique_id=1282475959]
 script = ExtResource("1_hqrb7")
 caught_fish_scene = ExtResource("2_j1mdm")
 
+[node name="MountainOne" type="Sprite2D" parent="." unique_id=218880425]
+position = Vector2(-112, -105)
+texture = ExtResource("3_jnrsg")
+
+[node name="MountainOne2" type="Sprite2D" parent="." unique_id=841715867]
+position = Vector2(70, -105)
+texture = ExtResource("3_jnrsg")
+
 [node name="Fish" parent="." unique_id=1306149153 instance=ExtResource("2_hqrb7")]
+position = Vector2(0, 45.055)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=77571387]
+offset = Vector2(0, -56.295)
 zoom = Vector2(4, 4)
 
 [node name="StaminaRegenTimer" type="Timer" parent="." unique_id=1622655774]
 unique_name_in_owner = true
 wait_time = 2.0
 one_shot = true
-
-[node name="TempStaminaBar" type="Label" parent="." unique_id=2134775375]
-unique_name_in_owner = true
-offset_right = 40.0
-offset_bottom = 23.0
 
 [node name="TempHungerBar" type="Label" parent="." unique_id=225913079]
 unique_name_in_owner = true
@@ -36,9 +58,13 @@ offset_bottom = -28.095001
 
 [node name="Player" type="Sprite2D" parent="." unique_id=1398494350]
 unique_name_in_owner = true
-position = Vector2(-20, -80)
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("2_6lden")
+position = Vector2(-43.83, -80.83)
+scale = Vector2(1.0365626, 1.0365626)
+texture = ExtResource("4_xbfc7")
+
+[node name="RodTip" type="Marker2D" parent="Player" unique_id=367552732]
+unique_name_in_owner = true
+position = Vector2(29.742538, -31.035269)
 
 [node name="CaughtFish" parent="." unique_id=607923808 instance=ExtResource("2_j1mdm")]
 unique_name_in_owner = true
@@ -47,8 +73,29 @@ visible = false
 [node name="Area2D" type="Area2D" parent="." unique_id=1970060649]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1254803981]
-position = Vector2(1, 37.5)
+position = Vector2(0, 37.5)
 shape = SubResource("RectangleShape2D_hqrb7")
+
+[node name="Snow" parent="." unique_id=1818459410 instance=ExtResource("5_j1mdm")]
+position = Vector2(-2, -140)
+
+[node name="Hole" type="Sprite2D" parent="." unique_id=19513557]
+unique_name_in_owner = true
+position = Vector2(0, -50)
+texture = ExtResource("6_vlbu8")
+
+[node name="StaminaBar" type="Sprite2D" parent="." unique_id=311570746]
+position = Vector2(89, 15)
+texture = ExtResource("7_vlbu8")
+
+[node name="StaminaBarBar" type="ProgressBar" parent="StaminaBar" unique_id=2024972527]
+unique_name_in_owner = true
+offset_left = -44.0
+offset_top = -10.0
+offset_right = 44.0
+theme_override_styles/background = SubResource("StyleBoxFlat_vlbu8")
+theme_override_styles/fill = SubResource("StyleBoxTexture_dtp7y")
+show_percentage = false
 
 [connection signal="timeout" from="StaminaRegenTimer" to="." method="_on_stamina_regen_timer_timeout"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
