@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://dcsv3p3lanfd7"]
+
+[ext_resource type="PackedScene" uid="uid://dkcr0hqmnox6t" path="res://Scenes/Fish/fish.tscn" id="1_w4t1u"]
+[ext_resource type="Texture2D" uid="uid://bgxavv14r4c5p" path="res://Scenes/Fish/goldfish.png" id="2_o1kyx"]
+
+[node name="Gold Fish" unique_id=1306149153 instance=ExtResource("1_w4t1u")]
+size = 5.0
+fish_name = "Gold Fish"
+
+[node name="Sprite2D" parent="." index="0" unique_id=1353829730]
+scale = Vector2(0.515625, 0.484375)
+texture = ExtResource("2_o1kyx")

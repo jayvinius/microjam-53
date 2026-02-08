@@ -1,6 +1,18 @@
 extends Node2D
 
-@export var current_fish: Fish
+@export var dropped_fish_sound: AudioStream
+@export var caught_fish_sound: AudioStream
+
+@export var current_fish: Fish:
+	set(new_val):
+		current_fish = new_val
+		if current_fish:
+			%Player.texture = player_sprites[1]
+			%RodTip.position = Vector2(31, -24)
+		else:
+			%Player.texture = player_sprites[0]
+			%RodTip.position = Vector2(30, -31)
+
 @export var max_stamina: float = 30.0:
 	set(new_max_stamina):
 		max_stamina = new_max_stamina
@@ -23,51 +35,84 @@ var caught_fish: Fish
 var caught_state: bool = false
 
 @export var player_sprites: Array[Texture2D]
-var player_sprite_idx := 0
+
+var playing_intro = true
+
+var camera_y_target = -72.0
+var panned = false
+var starting_game = true
+var started_game = false
 
 func _ready() -> void:
 	stamina = max_stamina
 	%StaminaBarBar.max_value = max_stamina
+	%IntroTalk.connect("intro_finished", Callable(self, "_intro_finished"))
+	%IntroTalk.active = false
+	for fish_type in fish_types:
+		var temp = fish_type.instantiate()
+		fish_type_caught[temp.fish_name] = 0
+
+func _intro_finished():
+	playing_intro = false
 
 func _process(delta: float) -> void:
+	if !panned:
+		if Input.is_action_just_pressed("reel_in"):
+			panned = true
+		return
+	if starting_game and !started_game:
+		%Camera2D.offset.y = lerp(%Camera2D.offset.y, camera_y_target, delta)
+		if %Camera2D.offset.y >= camera_y_target - 2:
+			started_game = true
+			%IntroTalk.show()
+			%IntroTalk.active = true
+
+	if playing_intro:
+		return
+
 	regen_stamina()
 
 	if caught_state:
-		if Input.is_action_just_pressed("eat"):
-			hunger += caught_fish.size
-			caught_fish = null
-			caught_state = false
-			%CaughtFish.hide()
-		elif Input.is_action_just_pressed("use"):
+		if !%CaughtFish.speach_bubble.displaying_text and Input.is_action_just_pressed("reel_in"):
 			caught_state = false
 			%CaughtFish.hide()
 		return
 
+	if current_fish:
+		if abs(current_fish.position.x) > 75:
+			%AudioStreamPlayer.stream = dropped_fish_sound
+			%AudioStreamPlayer.pitch_scale = randf_range(.9, 1.1)
+			%AudioStreamPlayer.play()
+			current_fish = null
+			casted = false
+
 	if Input.is_action_just_pressed("reel_in") and stamina > 0:
-		player_sprite_idx = (player_sprite_idx + 1) % player_sprites.size()
-		%Player.texture = player_sprites[player_sprite_idx]
 		if not casted:
 			casted = true
 		if current_fish:
-			current_fish.position.y -= 100/abs(current_fish.position.x)
+			var strength := 100.0
+			if current_fish.position.x > 0:
+			# 	# current_fish.position.x -= min(strength/abs(current_fish.position.x), 1)
+				current_fish.position.x -= sqrt(current_fish.position.x)
+			elif current_fish.position.x < 0:
+			# 	# current_fish.position.x += min(strength/abs(current_fish.position.x), 1)
+				current_fish.position.x += sqrt(abs(current_fish.position.x))
+			current_fish.position.y -= strength/abs(current_fish.position.x)
 			stamina -= 1
 			should_regen_stamina = false
 			%StaminaRegenTimer.start()
 			if current_fish.position.y < %Hole.position.y:
+				%AudioStreamPlayer.stream = caught_fish_sound
+				%AudioStreamPlayer.pitch_scale = randf_range(.9, 1.1)
+				%AudioStreamPlayer.play()
 				caught_fish = current_fish
-				%CaughtFish.fish = caught_fish
+				%CaughtFish.fish = caught_fish.fish_name
 				%CaughtFish.show()
 				caught_state = true
+				fish_type_caught[caught_fish.fish_name] += 1
+				caught_fish.queue_free()
 				current_fish = null
 				casted = false
-
-
-func _physics_process(delta: float) -> void:
-	queue_redraw()
-	# Temp hunger decrease constantly
-	hunger -= delta
-	if hunger < 0:
-		print("damn, shit's hungering")
 
 func _on_stamina_regen_timer_timeout() -> void:
 	should_regen_stamina = true
@@ -76,20 +121,18 @@ func regen_stamina() -> void:
 	if !should_regen_stamina: return
 	stamina = lerp(stamina, max_stamina, .05)
 
-func _draw() -> void:
-	if not casted: return
-	# TODO: Add more rod things, and make this give the player more feedback on where the fish is
-	if current_fish:
-		var offset := current_fish.position.x / 6.0
-		offset = clamp(offset, -10.0, 10.0)
-		draw_line(%RodTip.global_position, Vector2(%Hole.position.x + offset, %Hole.position.y), Color.WEB_GRAY, 1.0)
-		draw_line(Vector2(%Hole.position.x + offset, %Hole.position.y), current_fish.position, Color.WEB_GRAY, 1.0)
-	else:
-		draw_line(%RodTip.global_position, %Hole.position, Color.WEB_GRAY, 1.0)
-		draw_line(%Hole.position, Vector2(0, 100), Color.WEB_GRAY, 1.0)
-
-
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	# Get a new fish if there's no fish hooked and is casted
 	if not body is Fish or current_fish != null or not casted: return
-	current_fish = body
+
+	if body.required_fish and fish_type_caught[body.required_fish_name] > 3:
+		current_fish = body
+	if !body.required_fish:
+		current_fish = body
+
+@export var fish_types: Array[PackedScene]
+@export var fish_type_caught: Dictionary
+
+func _on_timer_timeout() -> void:
+	var new_fish = fish_types[randi_range(0, fish_types.size() - 1)].instantiate()
+	add_child(new_fish)

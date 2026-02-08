@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://v1cll8xt4gpu"]
+
+[ext_resource type="PackedScene" uid="uid://dkcr0hqmnox6t" path="res://Scenes/Fish/fish.tscn" id="1_h6jt4"]
+[ext_resource type="Texture2D" uid="uid://c5cf0q16bygcg" path="res://Scenes/Fish/coolbluefish.png" id="2_3rr4g"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h6jt4"]
+radius = 25.019993
+
+[node name="Big Mama" unique_id=1306149153 instance=ExtResource("1_h6jt4")]
+max_speed = 30.0
+max_force = 5.0
+size = 30.0
+fish_name = "Big Mama"
+required_fish = true
+required_fish_name = "Red Fancy"
+
+[node name="Sprite2D" parent="." index="0" unique_id=1353829730]
+texture = ExtResource("2_3rr4g")
+
+[node name="CollisionShape2D" parent="." index="1" unique_id=1847569719]
+position = Vector2(-2, 0)
+shape = SubResource("CircleShape2D_h6jt4")

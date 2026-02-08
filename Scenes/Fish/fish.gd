@@ -7,6 +7,9 @@ class_name Fish
 @export var size: float = 10.0
 
 var target_pos: Vector2
+@export var fish_name: String
+@export var required_fish: bool
+@export var required_fish_name: String
 
 func _new_target() -> void:
 	target_pos = Vector2(randf_range(-100, 100), randf_range(0, 60))

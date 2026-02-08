@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bekh0mj1pd2kq"]
+
+[ext_resource type="Script" uid="uid://8vhydqdrfv3n" path="res://Scenes/Managers/intro_talk.gd" id="1_t50eg"]
+[ext_resource type="PackedScene" uid="uid://b4bqdt5bc2snn" path="res://Scenes/Managers/speach_bubble.tscn" id="2_3xpdb"]
+
+[node name="IntroTalk" type="Node2D" unique_id=1236305236]
+script = ExtResource("1_t50eg")
+
+[node name="SpeachBubble" parent="." unique_id=505859378 instance=ExtResource("2_3xpdb")]
+unique_name_in_owner = true

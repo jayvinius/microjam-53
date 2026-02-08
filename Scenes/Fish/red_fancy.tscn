@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://ctkr1jv32geqy"]
+
+[ext_resource type="PackedScene" uid="uid://dkcr0hqmnox6t" path="res://Scenes/Fish/fish.tscn" id="1_e5jl6"]
+[ext_resource type="Texture2D" uid="uid://dr73sevff5dkb" path="res://Scenes/Fish/lowkeycuntyfish.png" id="2_lo6cb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e5jl6"]
+radius = 16.0
+
+[node name="Red Fancy" unique_id=1306149153 instance=ExtResource("1_e5jl6")]
+max_speed = 70.0
+max_force = 10.0
+size = 15.0
+fish_name = "Red Fancy"
+required_fish = true
+required_fish_name = "Gold Fish"
+
+[node name="Sprite2D" parent="." index="0" unique_id=1353829730]
+position = Vector2(-2.3841858e-07, 2.3841858e-07)
+scale = Vector2(0.5234375, 0.5234375)
+texture = ExtResource("2_lo6cb")
+
+[node name="CollisionShape2D" parent="." index="1" unique_id=1847569719]
+position = Vector2(-2, 0)
+shape = SubResource("CircleShape2D_e5jl6")
