@@ -4,11 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://ceytv3uprueiq" path="res://Scenes/Fish/tempfish.png" id="2_rrrj0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xbfc7"]
+radius = 20.0
 
 [node name="Fish" type="CharacterBody2D" unique_id=1306149153]
+collision_layer = 2
 script = ExtResource("1_rrrj0")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1353829730]
+unique_name_in_owner = true
 position = Vector2(-1, 0)
 scale = Vector2(0.78125, 0.78125)
 texture = ExtResource("2_rrrj0")

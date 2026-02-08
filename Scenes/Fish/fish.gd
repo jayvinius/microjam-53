@@ -10,6 +10,10 @@ var target_pos: Vector2
 
 func _new_target() -> void:
 	target_pos = Vector2(randf_range(-100, 100), randf_range(0, 60))
+	if target_pos.x < global_position.x:
+		%Sprite2D.flip_h = true
+	elif target_pos.x > global_position.x:
+		%Sprite2D.flip_h = false
 
 func _ready() -> void:
 	position = Vector2(randf_range(-100, 100), randf_range(0, 60))

@@ -22,6 +22,9 @@ var caught_fish: Fish
 @export var caught_fish_scene: PackedScene
 var caught_state: bool = false
 
+@export var player_sprites: Array[Texture2D]
+var player_sprite_idx := 0
+
 func _ready() -> void:
 	stamina = max_stamina
 	%StaminaBarBar.max_value = max_stamina
@@ -41,6 +44,8 @@ func _process(delta: float) -> void:
 		return
 
 	if Input.is_action_just_pressed("reel_in") and stamina > 0:
+		player_sprite_idx = (player_sprite_idx + 1) % player_sprites.size()
+		%Player.texture = player_sprites[player_sprite_idx]
 		if not casted:
 			casted = true
 		if current_fish:
