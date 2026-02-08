@@ -8,12 +8,34 @@ var stamina: float:
 		%TempStaminaBar.text = str(stamina)
 var should_regen_stamina := false
 
+var hunger: float = 10.0:
+	set(new_hunger):
+		hunger = new_hunger
+		%TempHungerBar.text = str(hunger)
+
 var casted := false
+
+var caught_fish: Fish
+@export var caught_fish_scene: PackedScene
+var caught_state: bool = false
 
 func _ready() -> void:
 	stamina = max_stamina
 
 func _process(delta: float) -> void:
+	regen_stamina()
+
+	if caught_state:
+		if Input.is_action_just_pressed("eat"):
+			hunger += caught_fish.size
+			caught_fish = null
+			caught_state = false
+			%CaughtFish.hide()
+		elif Input.is_action_just_pressed("use"):
+			caught_state = false
+			%CaughtFish.hide()
+		return
+
 	if Input.is_action_just_pressed("reel_in") and stamina > 0:
 		if not casted:
 			casted = true
@@ -23,14 +45,18 @@ func _process(delta: float) -> void:
 			should_regen_stamina = false
 			%StaminaRegenTimer.start()
 			if current_fish.position.y < 0:
-				print("you caught a fish")
+				caught_fish = current_fish
+				%CaughtFish.fish = caught_fish
+				%CaughtFish.show()
+				caught_state = true
 				current_fish = null
 				casted = false
 
-	regen_stamina()
 
 func _physics_process(delta: float) -> void:
 	queue_redraw()
+	# Temp hunger decrease constantly
+	hunger -= delta
 
 func _on_stamina_regen_timer_timeout() -> void:
 	print("here")

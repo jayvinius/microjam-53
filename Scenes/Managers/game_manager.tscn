@@ -2,25 +2,17 @@
 
 [ext_resource type="Script" uid="uid://d3nw28fk6x6vc" path="res://Scenes/Managers/game_manager.gd" id="1_hqrb7"]
 [ext_resource type="Texture2D" uid="uid://bn7thxrulgmsq" path="res://icon.svg" id="2_6lden"]
-[ext_resource type="Script" uid="uid://cs8tnt2j6o4i1" path="res://Scenes/Fish/fish.gd" id="3_j1mdm"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_xbfc7"]
+[ext_resource type="PackedScene" uid="uid://dkcr0hqmnox6t" path="res://Scenes/Fish/fish.tscn" id="2_hqrb7"]
+[ext_resource type="PackedScene" uid="uid://b0o3ufperugmu" path="res://Scenes/UI/caught_fish.tscn" id="2_j1mdm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hqrb7"]
 size = Vector2(12, 173)
 
 [node name="GameManager" type="Node2D" unique_id=1282475959]
 script = ExtResource("1_hqrb7")
+caught_fish_scene = ExtResource("2_j1mdm")
 
-[node name="Fish" type="CharacterBody2D" parent="." unique_id=98598661]
-script = ExtResource("3_j1mdm")
-
-[node name="Sprite2D" type="Sprite2D" parent="Fish" unique_id=602854422]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_6lden")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Fish" unique_id=410766878]
-shape = SubResource("CircleShape2D_xbfc7")
+[node name="Fish" parent="." unique_id=1306149153 instance=ExtResource("2_hqrb7")]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=77571387]
 zoom = Vector2(4, 4)
@@ -35,11 +27,22 @@ unique_name_in_owner = true
 offset_right = 40.0
 offset_bottom = 23.0
 
+[node name="TempHungerBar" type="Label" parent="." unique_id=225913079]
+unique_name_in_owner = true
+offset_left = 80.935
+offset_top = -51.095
+offset_right = 120.935005
+offset_bottom = -28.095001
+
 [node name="Player" type="Sprite2D" parent="." unique_id=1398494350]
 unique_name_in_owner = true
 position = Vector2(-20, -80)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_6lden")
+
+[node name="CaughtFish" parent="." unique_id=607923808 instance=ExtResource("2_j1mdm")]
+unique_name_in_owner = true
+visible = false
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1970060649]
 
