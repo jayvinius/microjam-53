@@ -9,3 +9,6 @@ extends Node2D
 
 func _ready() -> void:
 	speach_bubble = %SpeachBubble
+
+func special(text) -> void:
+	%SpeachBubble.text = text

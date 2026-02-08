@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://dwpfp2d5q7s1n" path="res://Scenes/Managers/fishing_line.gd" id="14_nvrdr"]
 [ext_resource type="PackedScene" uid="uid://bekh0mj1pd2kq" path="res://Scenes/Managers/intro_talk.tscn" id="15_g422c"]
 [ext_resource type="Texture2D" uid="uid://b34luffxxtn68" path="res://Scenes/Managers/REELVIBESLOGO.png" id="19_cstud"]
+[ext_resource type="AudioStream" uid="uid://de1h5q37pehlf" path="res://Scenes/groove.wav" id="21_af5wm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hqrb7"]
 size = Vector2(12, 173)
@@ -106,7 +107,9 @@ shape = SubResource("RectangleShape2D_hqrb7")
 position = Vector2(-2, -140)
 
 [node name="StaminaBar" type="Sprite2D" parent="." unique_id=311570746]
-position = Vector2(89, -5.89)
+unique_name_in_owner = true
+visible = false
+position = Vector2(-46.705, -108.15)
 texture = ExtResource("7_vlbu8")
 
 [node name="StaminaBarBar" type="ProgressBar" parent="StaminaBar" unique_id=2024972527]
@@ -131,7 +134,14 @@ unique_name_in_owner = true
 visible = false
 position = Vector2(-49, -114)
 scale = Vector2(0.333, 0.333)
-text = Array[String](["Man, I love being out here all alone", "isolated from the busy world.", "It's cool to know yourself so well", "that you're chill with spending", "time with yourself.", "Some people are so scared to", "be alone that they don't even", "talk to themselves.", "But if I never got time alone", " I would never be able to uncover", "parts of myself that can only be", "found in solitude.", "As that one guy once said", "\"there's nothin' wrong with having", "a mountain as a friend", "or something like that.", "Time to get some lunch", "and enjoy the view.", "My granddaddy always said", "if you wanna reel in yer fishin", "ya gotta press spacebar", "at the right time", "when the fish is", "lined up with it's exit!", "maybe I should try it."])
+text = Array[String](["Man, I love being out here all alone isolated from the busy world.", "It's cool to know yourself so well", "that you're chill with spending time with yourself.", "Some people are so scared to be alone ", "that they don't even talk to themselves.", "But if I never got time alone I would never be able to uncover", "parts of myself that can only be found in solitude.", "As that one guy once said", "\"there's nothin' wrong with having a mountain as a friend\"", "or ... something like that.", "Time to get some lunch and enjoy the view.", "My granddaddy always said", "if you wanna reel in yer fishin", "ya gotta press spacebar at the right time", "when the fish is lined up with it's exit!", "Grandaddy always told me you could catch a legendary Big Momma out here.", "Maybe I should try to catch it!"])
+
+[node name="EndTalk" parent="." unique_id=773099871 instance=ExtResource("15_g422c")]
+unique_name_in_owner = true
+visible = false
+position = Vector2(-49, -114)
+scale = Vector2(0.333, 0.333)
+text = Array[String](["Wow, it's just like grandaddy said! I just caught the legendary Big Momma!", "Looks like I forgot my camera at home, but that's okay", " I'm so glad I got to have this experience with myself, for myself."])
 
 [node name="Timer" type="Timer" parent="." unique_id=1331050540]
 wait_time = 3.0
@@ -144,6 +154,12 @@ texture = ExtResource("19_cstud")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=639555193]
 unique_name_in_owner = true
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=1633849784]
+unique_name_in_owner = true
+stream = ExtResource("21_af5wm")
+volume_db = -3.275
+autoplay = true
 
 [connection signal="timeout" from="StaminaRegenTimer" to="." method="_on_stamina_regen_timer_timeout"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

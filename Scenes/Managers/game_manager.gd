@@ -9,9 +9,11 @@ extends Node2D
 		if current_fish:
 			%Player.texture = player_sprites[1]
 			%RodTip.position = Vector2(31, -24)
+			%StaminaBar.show()
 		else:
 			%Player.texture = player_sprites[0]
 			%RodTip.position = Vector2(30, -31)
+			%StaminaBar.hide()
 
 @export var max_stamina: float = 30.0:
 	set(new_max_stamina):
@@ -51,9 +53,13 @@ func _ready() -> void:
 	for fish_type in fish_types:
 		var temp = fish_type.instantiate()
 		fish_type_caught[temp.fish_name] = 0
+	%EndTalk.connect("intro_finished", Callable(self, "_end_talk_finished"))
 
 func _intro_finished():
 	playing_intro = false
+
+func _end_talk_finished():
+	end_talk = false
 
 func _process(delta: float) -> void:
 	if !panned:
@@ -68,6 +74,9 @@ func _process(delta: float) -> void:
 			%IntroTalk.active = true
 
 	if playing_intro:
+		return
+
+	if end_talk:
 		return
 
 	regen_stamina()
@@ -107,12 +116,33 @@ func _process(delta: float) -> void:
 				%AudioStreamPlayer.play()
 				caught_fish = current_fish
 				%CaughtFish.fish = caught_fish.fish_name
+				if fish_type_caught["Gold Fish"] == 2 and !played_gold:
+					played_gold = true
+					%CaughtFish.special("COOL! I got three goldfish, I'm feeling inspired to catch an even bigger fish now.")
+				if fish_type_caught["Red Fancy"] == 2 and !played_fancy:
+					played_fancy = true
+					%CaughtFish.special("Nice, I got three fancy fish! I'm feeling a Big Momma in the horizon.")
 				%CaughtFish.show()
 				caught_state = true
 				fish_type_caught[caught_fish.fish_name] += 1
+				# Game jam code be like
+				if fish_type_caught["Big Mama"] == 1 and !played_mama:
+					%CaughtFish.hide()
+					end_scene()
 				caught_fish.queue_free()
 				current_fish = null
 				casted = false
+
+var played_gold = false
+var played_fancy = false
+var played_mama = false
+
+var end_talk = false
+func end_scene() -> void:
+	played_mama = true
+	end_talk = true
+	%EndTalk.show()
+	%EndTalk.active = true
 
 func _on_stamina_regen_timer_timeout() -> void:
 	should_regen_stamina = true
@@ -125,7 +155,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	# Get a new fish if there's no fish hooked and is casted
 	if not body is Fish or current_fish != null or not casted: return
 
-	if body.required_fish and fish_type_caught[body.required_fish_name] > 3:
+	if body.required_fish and fish_type_caught[body.required_fish_name] > 2:
 		current_fish = body
 	if !body.required_fish:
 		current_fish = body
@@ -134,5 +164,13 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 @export var fish_type_caught: Dictionary
 
 func _on_timer_timeout() -> void:
-	var new_fish = fish_types[randi_range(0, fish_types.size() - 1)].instantiate()
-	add_child(new_fish)
+	match randi_range(0, 10):
+		0, 1, 2, 3, 4:
+			var new_fish = fish_types[0].instantiate()
+			add_child(new_fish)
+		5, 6, 7:
+			var new_fish = fish_types[1].instantiate()
+			add_child(new_fish)
+		8, 9:
+			var new_fish = fish_types[2].instantiate()
+			add_child(new_fish)

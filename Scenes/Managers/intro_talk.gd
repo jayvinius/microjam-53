@@ -20,7 +20,7 @@ signal intro_finished
 
 func _process(_delta: float) -> void:
 	if !active: return
-	if Input.is_action_just_pressed("reel_in"):
+	if Input.is_action_just_pressed("reel_in") and !%SpeachBubble.displaying_text:
 		text_idx += 1
 		if text_idx == text.size():
 			intro_finished.emit()
