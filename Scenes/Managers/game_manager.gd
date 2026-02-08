@@ -164,7 +164,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 @export var fish_type_caught: Dictionary
 
 func _on_timer_timeout() -> void:
-	match randi_range(0, 10):
+	match randi_range(0, 12):
 		0, 1, 2, 3, 4:
 			var new_fish = fish_types[0].instantiate()
 			add_child(new_fish)
