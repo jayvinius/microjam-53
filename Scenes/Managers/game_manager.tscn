@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://caflwnxo4go1r" path="res://Scenes/Managers/snowman.png" id="11_nvrdr"]
 [ext_resource type="Script" uid="uid://dwpfp2d5q7s1n" path="res://Scenes/Managers/fishing_line.gd" id="14_nvrdr"]
 [ext_resource type="PackedScene" uid="uid://bekh0mj1pd2kq" path="res://Scenes/Managers/intro_talk.tscn" id="15_g422c"]
+[ext_resource type="Texture2D" uid="uid://gsape0lj8oyt" path="res://Scenes/Managers/Sprite-0009.png" id="15_u5ixo"]
 [ext_resource type="Texture2D" uid="uid://b34luffxxtn68" path="res://Scenes/Managers/REELVIBESLOGO.png" id="19_cstud"]
 [ext_resource type="AudioStream" uid="uid://de1h5q37pehlf" path="res://Scenes/groove.wav" id="21_af5wm"]
 
@@ -51,6 +52,7 @@ position = Vector2(-4.7683716e-07, -50)
 texture = ExtResource("6_vlbu8")
 
 [node name="Background" type="Sprite2D" parent="." unique_id=670000604]
+z_index = -9
 position = Vector2(7, -150)
 scale = Vector2(1.2753906, 1.2531713)
 texture = ExtResource("3_pvvng")
@@ -80,8 +82,15 @@ unique_name_in_owner = true
 wait_time = 2.0
 one_shot = true
 
+[node name="Sprite0009" type="Sprite2D" parent="." unique_id=845468204]
+z_index = 1
+position = Vector2(7, 115)
+scale = Vector2(1.2734375, 1.2734375)
+texture = ExtResource("15_u5ixo")
+
 [node name="Player" type="Sprite2D" parent="." unique_id=1398494350]
 unique_name_in_owner = true
+z_index = 2
 position = Vector2(-45, -69)
 scale = Vector2(1.0365626, 1.0365626)
 texture = ExtResource("5_af5wm")
@@ -122,7 +131,8 @@ theme_override_styles/fill = SubResource("StyleBoxTexture_dtp7y")
 show_percentage = false
 
 [node name="Snowman" type="Sprite2D" parent="." unique_id=554810846]
-position = Vector2(117, -55)
+z_index = 1
+position = Vector2(116, -63)
 texture = ExtResource("11_nvrdr")
 
 [node name="FishingLine" type="Node2D" parent="." unique_id=1025205830 node_paths=PackedStringArray("game_manager")]
